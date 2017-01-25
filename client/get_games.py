@@ -24,9 +24,10 @@ def get_html(url):
     start_time=time.time()
     headers = {"User-Agent": "Mozilla/5.001 (windows; U; NT4.0; en-US; rv:1.0) Gecko/25250101"}
     html = requests.get(url, headers=headers).content.decode('utf-8')
-    wait =1.3-(time.time()-start_time)
+    wait =12.0-(time.time()-start_time)
     if (wait>0):
         sleep(wait)
+    return html
 
 
 
@@ -56,9 +57,10 @@ def get_pages(genre):
 
 def main():
     with Profiler() as p:
+        page=""
         for i in range(0,51):
-            p=get_pages("http://steamcommunity.com/market/search/render/?query=&start=40&count=200&search_descriptions=0&sort_column=name&sort_dir=asc&appid=753&category_753_Game%5B%5D=any&category_753_item_class%5B%5D=tag_item_class_2&category_753_item_class%5B%5D=tag_item_class_5&currency=5")
-            if p=="null":
+            page=get_pages("http://steamcommunity.com/market/search/render/?query=&start="+str(i)+"0&count=10&search_descriptions=0&sort_column=name&sort_dir=asc&appid=753&category_753_Game%5B%5D=any&category_753_item_class%5B%5D=tag_item_class_2&category_753_item_class%5B%5D=tag_item_class_")
+            if page=="null":
                 print i
                 break
     sleep(1)
