@@ -25,11 +25,11 @@ class Client(object):
             sleep(self.block_date-time.time())
         headers = {"User-Agent": "Mozilla/5.001 (windows; U; NT4.0; en-US; rv:1.0) Gecko/25250101"}
         html_request = requests.get(url, headers=headers).content.decode('utf-8')
-        self.block_date = time.time() + (300 if "null" == html else 12)
         return html_request
 
     def get_games(self, html_request):
         page_content = self.get_html(html_request)
+        self.block_date = time.time() + (300 if "null" == page_content else 12)
         #return page_content
         document = json.loads(page_content).values()[0]
         cards = []
@@ -39,11 +39,11 @@ class Client(object):
             img_src = re.findall("<img id=\"result_0_image\" src=\"([\s\S]*?)\" style=\"\"", m)[0]
             num_listings_qty = re.findall("<span class=\"market_listing_num_listings_qty\">([\s\S]*?)</span>", m)[0]
             price = re.findall("<span class=\"normal_price\">([\s\S]*?)</span>", m)[0]
-            #item_name = re.findall("class=\"market_listing_item_name\".*>([\s\S]*?)</span><br/>", m)[0]
+            item_name = re.findall("class=\"market_listing_item_name\".*>([\s\S]*?)</span>[\s]*<br/>", m)[0]
             game_name = re.findall("<span class=\"market_listing_game_name\">([\s\S]*?)</span>", m)[0]
             cards.append(
-                {'href': href, 'img_src': img_src, 'num_listings_qty': num_listings_qty, 'game_name': game_name,
-                 'price': price})
+                {'href': href, 'img_src': img_src, 'num_listings_qty': num_listings_qty, 'item_name': item_name,
+                 'game_name': game_name, 'price': price})
             print cards
         return cards
 
