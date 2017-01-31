@@ -25,7 +25,7 @@ if __name__ == '__main__':
         print(row)
 
     connect.close()
-    app.run(port=80)
+    app.run(port=80, ip='192.168.1.144')
 
 
 @app.route('/todo/api/v1.0/tasks', methods=['POST'])
