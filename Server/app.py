@@ -11,7 +11,7 @@ def index():
     return "Hello, World!"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=80, host='192.168.1.144')
 
 
 @app.route('/todo/api/v1.0/tasks', methods=['POST'])
